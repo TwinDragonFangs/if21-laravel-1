@@ -5,27 +5,28 @@ use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\DosenController;
+use App\Http\Controllers\SesiController;
+use App\Http\Controllers\MataKuliahController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    // return view('welcome');
-    return redirect()->route('login');
+    return view('welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('/fakultas', FakultasController::class);
 Route::resource('/prodi', ProdiController::class);
 Route::resource('/mahasiswa', MahasiswaController::class);
+Route::resource('/jadwals', JadwalController::class);
+Route::resource('dosen', DosenController::class);
+Route::resource('sesi', SesiController::class);
+Route::resource('mata_kuliah', MataKuliahController::class);
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

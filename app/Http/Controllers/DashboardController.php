@@ -27,6 +27,14 @@ class DashboardController extends Controller
             GROUP BY LEFT(npm, 2)
         ');
 
-        return view('dashboard.index', compact('mahasiswaprodi', 'mahasiswaasalsma', 'mahasiswapertahun'));
+        $jadwalPerProdiTahun = DB::select('
+            SELECT prodi.nama AS prodi, jadwals.tahun_akademik, COUNT(DISTINCT jadwals.kelas) AS jumlah_kelas
+            FROM jadwals
+            JOIN mata_kuliahs ON jadwals.mata_kuliah_id = mata_kuliahs.id
+            JOIN prodi ON mata_kuliahs.prodi_id = prodi.id
+            GROUP BY prodi.nama, jadwals.tahun_akademik
+        ');
+
+        return view('dashboard.index', compact('mahasiswaprodi', 'mahasiswaasalsma', 'mahasiswapertahun', 'jadwalPerProdiTahun'));
     }
 }

@@ -29,6 +29,14 @@
         </figure>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-12">
+        <figure class="highcharts-figure">
+            <div id="container-kelas-prodi"></div>
+        </figure>
+    </div>
+</div>
+
 
 <!-- css -->
  <style>
@@ -232,6 +240,64 @@ Highcharts.chart('container-pertahun', {
             ]
         }
     ]
+});
+
+const jadwalData = @json($jadwalPerProdiTahun);
+
+// Ekstrak kategori tahun dan nama prodi
+let tahunSet = new Set();
+let prodiSet = new Set();
+
+jadwalData.forEach(item => {
+    tahunSet.add(item.tahun_akademik);
+    prodiSet.add(item.prodi);
+});
+
+const tahunLabels = Array.from(tahunSet);
+const prodiLabels = Array.from(prodiSet);
+
+// Bentuk struktur data sesuai format Highcharts
+const seriesData = prodiLabels.map(prodi => {
+    return {
+        name: prodi,
+        data: tahunLabels.map(tahun => {
+            const found = jadwalData.find(x => x.prodi === prodi && x.tahun_akademik === tahun);
+            return found ? parseInt(found.jumlah_kelas) : 0;
+        })
+    };
+});
+
+Highcharts.chart('container-kelas-prodi', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Jumlah Kelas Dibuka per Prodi per Tahun Akademik'
+    },
+    xAxis: {
+        categories: tahunLabels,
+        crosshair: true,
+        title: {
+            text: 'Tahun Akademik'
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Jumlah Kelas'
+        }
+    },
+    tooltip: {
+        shared: true,
+        valueSuffix: ' kelas'
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.1,
+            borderWidth: 0
+        }
+    },
+    series: seriesData
 });
 
 </script>
