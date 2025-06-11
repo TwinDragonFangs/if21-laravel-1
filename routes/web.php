@@ -9,6 +9,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\SesiController;
 use App\Http\Controllers\MataKuliahController;
+use App\Http\Controllers\MateriController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +25,8 @@ Route::resource('/jadwals', JadwalController::class);
 Route::resource('dosen', DosenController::class);
 Route::resource('sesi', SesiController::class);
 Route::resource('mata_kuliah', MataKuliahController::class);
+Route::resource('materi', MateriController::class);
+
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

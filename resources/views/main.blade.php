@@ -299,6 +299,12 @@
                                 <p>Sesi</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class='nav-link' href='{{ route("materi.index") }}'>
+                                <i class="nav-icon  bi bi-file-earmark-pdf"></i>
+                                <p>Materi</p>
+                            </a>
+                        </li>
                     </ul>
                     <!--end::Sidebar Menu-->
                 </nav>
